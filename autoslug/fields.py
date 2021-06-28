@@ -211,6 +211,10 @@ class AutoSlugField(SlugField):
         self.manager_name = kwargs.pop('manager_name', None)
 
         self.always_update = kwargs.pop('always_update', False)
+
+        # list of reserved slugs for check uniqueness
+        self.reserved_slugs = kwargs.pop('reserved_slugs', tuple())
+
         super(SlugField, self).__init__(*args, **kwargs)
 
     def deconstruct(self):
@@ -244,6 +248,9 @@ class AutoSlugField(SlugField):
 
         if self.always_update:
             kwargs['always_update'] = self.always_update
+        
+        if self.reserved_slugs:
+            kwargs['reserved_slugs'] = self.reserved_slugs
 
         if 'manager' in kwargs:
             del kwargs['manager']
